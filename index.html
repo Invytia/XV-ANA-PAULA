@@ -151,7 +151,7 @@
 
         /* Estructura sin cajas (Flujo Continuo) */
         .section-block {
-            width: 100%; max-width: 700px; padding: 120px 20px; 
+            width: 100%; max-width: 700px; padding: 100px 20px; 
             display: flex; flex-direction: column; align-items: center; text-align: center;
             position: relative;
         }
@@ -187,17 +187,6 @@
         }
         .star-divider::after { background: linear-gradient(270deg, transparent, var(--accent-blue)); }
         .star-divider svg { width: 18px; fill: var(--accent-blue); filter: drop-shadow(0 0 8px var(--accent-blue)); animation: float 3s infinite alternate; }
-
-        /* Imágenes con bordes de luz */
-        .photo-frame {
-            width: 100%; max-width: 450px; margin: 50px auto;
-            border-radius: 200px 200px 10px 10px; overflow: hidden; 
-            border: 1px solid rgba(206, 224, 244, 0.4);
-            box-shadow: 0 30px 60px rgba(0,0,0,0.8), 0 0 40px rgba(206, 224, 244, 0.15); 
-            position: relative; z-index: 2; padding: 5px; background: rgba(255,255,255,0.02);
-        }
-        .photo-frame img { width: 100%; display: block; border-radius: 200px 200px 8px 8px; filter: contrast(1.1) saturate(1.1); transition: transform 1.5s ease; }
-        .photo-frame:hover img { transform: scale(1.08); }
 
         /* Textos de Información */
         .info-title {
@@ -259,14 +248,13 @@
         .time-tag { font-family: 'Cinzel', serif; font-size: 15px; color: var(--accent-blue); letter-spacing: 3px; margin-bottom: 8px; }
         .event-desc { font-family: 'Cormorant Garamond', serif; font-size: 28px; color: var(--white); }
 
-        /* Mapas */
+        /* Mapas (AHORA EN COLOR NORMAL) */
         .map-box {
             width: 100%; max-width: 600px; height: 350px; margin: 40px auto;
             border-radius: 4px; border: 1px solid rgba(206,224,244,0.2); 
             box-shadow: 0 20px 50px rgba(0,0,0,0.8); overflow: hidden;
         }
-        .map-box iframe { width: 100%; height: 100%; border: none; filter: invert(90%) hue-rotate(180deg) contrast(1.1) opacity(0.85); transition: opacity 0.5s; }
-        .map-box iframe:hover { filter: invert(90%) hue-rotate(180deg) contrast(1.1) opacity(1); }
+        .map-box iframe { width: 100%; height: 100%; border: none; transition: opacity 0.5s; }
 
         /* Formularios Finos Flotantes */
         .form-group { width: 100%; max-width: 450px; margin: 0 auto 30px auto; }
@@ -285,7 +273,7 @@
         /* Responsive Móvil */
         @media (max-width: 500px) {
             .shimmer-text { font-size: 85px; }
-            .section-block { padding: 90px 15px; }
+            .section-block { padding: 80px 15px; }
             .body-serif { font-size: 21px; }
             .info-data { font-size: 32px; }
             .map-box { height: 280px; }
@@ -295,8 +283,6 @@
             .front-flap { border-left-width: 150px; border-right-width: 150px; border-top-width: 105px; }
             .countdown-wrapper { gap: 15px; }
             .time-box span { font-size: 35px; }
-            .photo-frame { border-radius: 150px 150px 10px 10px; }
-            .photo-frame img { border-radius: 150px 150px 8px 8px; }
             .btn-solid { padding: 15px 30px; font-size: 11px; }
         }
     </style>
@@ -349,10 +335,6 @@
                 "𝑳𝒂 𝒇𝒆𝒍𝒊𝒄𝒊𝒅𝒂𝒅 𝒔𝒐𝒍𝒐 𝒆𝒔 𝒓𝒆𝒂𝒍 𝒄𝒖𝒂𝒏𝒅𝒐 𝒔𝒆 𝒄𝒐𝒎𝒑𝒂𝒓𝒕𝒆."<br><br>
                 Esta noche no solo celebro mis 15 años, celebro la suerte de tenerlos en mi vida. Cada uno de ustedes ha dejado una huella en quien soy hoy. En esta noche llena de estrellas, los invito a reír, celebrar y crear juntos un recuerdo que llevaré siempre en el corazón.
             </p>
-            
-            <div class="anim-element anim-fade-up delay-4 photo-frame">
-                <img src="assets/foto1.jpg" alt="Ana Paula" onerror="this.style.display='none'">
-            </div>
         </section>
 
         <!-- Familia -->
@@ -400,10 +382,6 @@
             </div>
 
             <a href="https://calendar.google.com/calendar/render?action=TEMPLATE&text=XV+A%C3%B1os+de+Ana+Paula&dates=20270227T003000Z/20270228T070000Z&details=Noche+bajo+las+estrellas" target="_blank" class="anim-element anim-fade-up delay-4 btn-solid">Agendar Evento</a>
-            
-            <div class="anim-element anim-fade-up delay-4 photo-frame">
-                <img src="assets/foto2.jpg" alt="Sesión" onerror="this.style.display='none'">
-            </div>
         </section>
 
         <!-- Itinerario -->
@@ -463,10 +441,6 @@
             <p class="anim-element anim-fade-up delay-4 tag-line" style="color: var(--accent-blue); font-size: 13px;">
                 Favor de no usar color azul
             </p>
-            
-            <div class="anim-element anim-fade-up delay-4 photo-frame">
-                <img src="assets/foto3.jpg" alt="Dress Code" onerror="this.style.display='none'">
-            </div>
         </section>
 
         <!-- Mesa de Regalos -->
@@ -492,14 +466,10 @@
                 Captura la magia de esta noche estrellada. Comparte todas las fotos y videos que tomes directamente en nuestro álbum digital.
             </p>
             <a href="https://drive.google.com/drive/folders/1wj-x-epWHzDvDA49RPvldPNiXAZSYx3h?usp=sharing" target="_blank" class="anim-element anim-fade-up delay-4 btn-solid">Subir mis Fotos</a>
-            
-            <div class="anim-element anim-fade-up delay-4 photo-frame">
-                <img src="assets/foto4.jpg" alt="Momentos" onerror="this.style.display='none'">
-            </div>
         </section>
 
         <!-- RSVP y Muro de Deseos -->
-        <section class="section-block">
+        <section class="section-block" style="padding-bottom: 120px;">
             
             <!-- Acceso Especial Oculto (?pases=X) -->
             <div id="pases-section" style="display: none; width: 100%; margin-bottom: 60px;">
@@ -552,10 +522,6 @@
                 <textarea id="wish-message" class="input-line" placeholder="Escribe tu mensaje mágico aquí..."></textarea>
             </div>
             <button onclick="sendWish()" class="anim-element anim-fade-up delay-4 btn-solid">Enviar Mensaje</button>
-            
-            <div class="anim-element anim-fade-up delay-4 photo-frame" style="margin-top: 80px;">
-                <img src="assets/foto5.jpg" alt="Despedida" onerror="this.style.display='none'">
-            </div>
         </section>
 
     </main>
