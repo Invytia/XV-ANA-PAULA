@@ -72,7 +72,7 @@
         /* --- SOBRE INICIAL --- */
         #envelope-screen {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: url('assets/fondo.jpg') center/cover no-repeat; /* FONDO SIN CAPA NEGRA */
+            background: url('assets/fondo.jpg') center/cover no-repeat;
             z-index: 1000; display: flex; flex-direction: column; justify-content: center; align-items: center;
             transition: opacity 1.5s ease-in-out, visibility 1.5s;
         }
@@ -248,7 +248,7 @@
         .time-tag { font-family: 'Cinzel', serif; font-size: 15px; color: var(--accent-blue); letter-spacing: 3px; margin-bottom: 8px; }
         .event-desc { font-family: 'Cormorant Garamond', serif; font-size: 28px; color: var(--white); }
 
-        /* Mapas y Fotos (AHORA EN COLOR NORMAL) */
+        /* Mapas y Fotos */
         .map-box {
             width: 100%; max-width: 600px; height: 350px; margin: 40px auto;
             border-radius: 4px; border: 1px solid rgba(206,224,244,0.2); 
@@ -391,12 +391,12 @@
             
             <div class="anim-element anim-fade-up delay-3 timeline-container">
                 <div class="timeline-item">
-                    <div class="time-tag">6:30 PM</div>
-                    <div class="event-desc">Recepción</div>
+                    <div class="time-tag">5:00 PM</div>
+                    <div class="event-desc">Ceremonia Religiosa</div>
                 </div>
                 <div class="timeline-item">
-                    <div class="time-tag">7:00 PM</div>
-                    <div class="event-desc">Ceremonia Religiosa</div>
+                    <div class="time-tag">6:30 PM</div>
+                    <div class="event-desc">Recepción</div>
                 </div>
                 <div class="timeline-item">
                     <div class="time-tag">8:00 PM</div>
@@ -413,12 +413,26 @@
             </div>
         </section>
 
-        <!-- Ubicación -->
+        <!-- Ubicación Ceremonia -->
         <section class="section-block">
-            <div class="anim-element anim-fade-up delay-1 info-title">Ubicación</div>
+            <div class="anim-element anim-fade-up delay-1 info-title">Ceremonia Religiosa</div>
+            <div class="anim-element anim-fade-up delay-2 info-data shimmer-text" style="font-size: 55px; font-family: 'Cormorant Garamond', serif; animation: none;">Capilla de la Conchita</div>
+            
+            <div class="anim-element anim-zoom delay-3" style="width: 100%; max-width: 600px; margin: 30px auto 10px auto; border-radius: 8px; overflow: hidden; box-shadow: 0 15px 40px rgba(0,0,0,0.6); border: 1px solid rgba(206,224,244,0.2);">
+                <img src="assets/ceremonia.jpg" alt="Foto de Capilla de la Conchita" style="width: 100%; height: auto; display: block; max-height: 400px; object-fit: cover;">
+            </div>
+
+            <div class="anim-element anim-zoom delay-4 map-box">
+                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d4092.9242510769764!2d-99.1589092!3d19.347058999999998!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x85d1ffda54447bf3%3A0x7200393bc7791bb!2sCapilla%20de%20la%20Conchita!5e1!3m2!1ses-419!2smx!4v1791677788362!5m2!1ses-419!2smx" allowfullscreen="" loading="lazy" referrerpolicy="strict-origin-when-cross-origin"></iframe>
+            </div>
+            <a href="https://maps.app.goo.gl/JHfS15Lf7xhjvnZw5?g_st=aw" target="_blank" class="anim-element anim-fade-up delay-4 btn-solid">Ver Mapa en Google</a>
+        </section>
+
+        <!-- Ubicación Recepción -->
+        <section class="section-block">
+            <div class="anim-element anim-fade-up delay-1 info-title">Recepción</div>
             <div class="anim-element anim-fade-up delay-2 info-data shimmer-text" style="font-size: 55px; font-family: 'Cormorant Garamond', serif; animation: none;">Jardín Casa Malitzin</div>
             
-            <!-- NUEVA IMAGEN DE LA UBICACIÓN -->
             <div class="anim-element anim-zoom delay-3" style="width: 100%; max-width: 600px; margin: 30px auto 10px auto; border-radius: 8px; overflow: hidden; box-shadow: 0 15px 40px rgba(0,0,0,0.6); border: 1px solid rgba(206,224,244,0.2);">
                 <img src="assets/ubi.jpg" alt="Foto de Jardín Casa Malitzin" style="width: 100%; height: auto; display: block; max-height: 400px; object-fit: cover;">
             </div>
