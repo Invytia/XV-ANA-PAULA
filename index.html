@@ -127,6 +127,53 @@
             animation: float 3s infinite alternate; text-shadow: 0 0 15px var(--accent-blue);
         }
 
+        /* --- FOTOS Y VISOR LIGHTBOX --- */
+        .photo-frame {
+            width: 100%;
+            max-width: 350px;
+            margin: 30px auto;
+            border-radius: 12px;
+            overflow: hidden;
+            border: 1px solid rgba(206,224,244,0.3);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.6), 0 0 20px rgba(206, 224, 244, 0.1);
+            cursor: pointer;
+            transition: transform 0.5s ease, box-shadow 0.5s ease;
+            position: relative;
+            z-index: 5;
+        }
+        .photo-frame:hover {
+            transform: scale(1.02);
+            box-shadow: 0 20px 50px rgba(0,0,0,0.8), 0 0 30px rgba(206, 224, 244, 0.3);
+        }
+        .photo-frame img {
+            width: 100%;
+            height: auto;
+            display: block;
+            object-fit: cover;
+        }
+        
+        .hero-photo {
+            max-width: 400px;
+            border-radius: 200px 200px 12px 12px; /* Corte en forma de arco/ventana */
+            margin-bottom: 40px;
+        }
+
+        #lightbox {
+            display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(3, 6, 18, 0.95); z-index: 9999;
+            justify-content: center; align-items: center; flex-direction: column;
+            opacity: 0; transition: opacity 0.4s ease; backdrop-filter: blur(10px);
+        }
+        #lightbox.show { display: flex; opacity: 1; }
+        #lightbox img {
+            max-width: 90%; max-height: 80vh; border-radius: 8px;
+            box-shadow: 0 0 40px rgba(206,224,244,0.2); object-fit: contain;
+        }
+        .close-lightbox {
+            position: absolute; top: 20px; right: 30px; color: var(--white);
+            font-size: 50px; cursor: pointer; line-height: 1; z-index: 10000; font-weight: 300;
+        }
+
         /* --- CONTENIDO FLUIDO --- */
         #main-invitation {
             display: none; width: 100%; flex-direction: column; align-items: center;
@@ -248,7 +295,7 @@
         .time-tag { font-family: 'Cinzel', serif; font-size: 15px; color: var(--accent-blue); letter-spacing: 3px; margin-bottom: 8px; }
         .event-desc { font-family: 'Cormorant Garamond', serif; font-size: 28px; color: var(--white); }
 
-        /* Mapas y Fotos */
+        /* Mapas y Fotos (Lugares) */
         .map-box {
             width: 100%; max-width: 600px; height: 350px; margin: 40px auto;
             border-radius: 4px; border: 1px solid rgba(206,224,244,0.2); 
@@ -284,6 +331,10 @@
             .countdown-wrapper { gap: 15px; }
             .time-box span { font-size: 35px; }
             .btn-solid { padding: 15px 30px; font-size: 11px; }
+            
+            /* Ajustes en visor móvil */
+            .hero-photo { max-width: 90%; }
+            .photo-frame { max-width: 90%; }
         }
     </style>
 </head>
@@ -300,6 +351,12 @@
         <svg id="music-icon-play" style="display:none;" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
         <svg id="music-icon-pause" viewBox="0 0 24 24"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg>
     </button>
+
+    <!-- VISOR DE FOTOS (LIGHTBOX) -->
+    <div id="lightbox" onclick="closeLightbox()">
+        <span class="close-lightbox" onclick="closeLightbox()">&times;</span>
+        <img id="lightbox-img" src="" alt="Ampliación de fotografía">
+    </div>
 
     <!-- PANTALLA INICIAL (SOBRE) -->
     <div id="envelope-screen">
@@ -322,10 +379,15 @@
     <!-- CONTENIDO PRINCIPAL FLUIDO -->
     <main id="main-invitation">
         
-        <!-- Portada -->
+        <!-- Portada y Foto Hero (1.jpg) -->
         <section class="section-block">
             <div class="anim-element anim-fade-up delay-1 tag-line">Mis XV Años</div>
             <h1 class="anim-element anim-zoom delay-2 shimmer-text">Ana Paula</h1>
+
+            <!-- FOTO 1 - PRINCIPAL / HERO -->
+            <div class="anim-element anim-zoom delay-3 photo-frame hero-photo" onclick="openLightbox('assets/1.jpg')">
+                <img src="assets/1.jpg" alt="Ana Paula - Retrato Principal">
+            </div>
             
             <div class="anim-element anim-fade-up delay-3 star-divider">
                 <svg viewBox="0 0 24 24"><path d="M12 2l2.4 7.6H22l-6.2 4.5 2.4 7.6-6.2-4.5-6.2 4.5 2.4-7.6-6.2-4.5h7.6z"/></svg>
@@ -337,7 +399,7 @@
             </p>
         </section>
 
-        <!-- Familia -->
+        <!-- Familia y Foto 2 -->
         <section class="section-block">
             <div class="anim-element anim-fade-up delay-1 info-title">Con el amor de mi madre</div>
             <div class="anim-element anim-fade-up delay-2 info-data shimmer-text" style="font-size: 55px; animation: none; background: linear-gradient(90deg, #fff, #CEE0F4); -webkit-background-clip: text; padding-bottom: 10px;">Paola Galván</div>
@@ -350,9 +412,14 @@
             <div class="anim-element anim-fade-up delay-4 info-data" style="font-size: 34px;">Francisco Javier</div>
             <div class="anim-element anim-fade-up delay-4" style="font-family: 'Cinzel', serif; font-size: 20px; color: var(--accent-blue); margin: 10px 0;">&</div>
             <div class="anim-element anim-fade-up delay-4 info-data" style="font-size: 34px;">María de la Luz</div>
+
+            <!-- FOTO 2 -->
+            <div class="anim-element anim-zoom delay-4 photo-frame" style="margin-top: 50px;" onclick="openLightbox('assets/2.jpg')">
+                <img src="assets/2.jpg" alt="Ana Paula - Retrato 2">
+            </div>
         </section>
 
-        <!-- Fecha, Cuenta Regresiva y Calendario -->
+        <!-- Fecha y Mini Galería (Fotos 3 y 4) -->
         <section class="section-block">
             <div class="anim-element anim-fade-up delay-1 info-title">La cita es el</div>
             <div class="anim-element anim-fade-up delay-2 info-data shimmer-text" style="font-size: 65px; font-family: 'Cormorant Garamond', serif; animation: none; text-shadow: none;">
@@ -360,8 +427,18 @@
             </div>
             <div class="anim-element anim-fade-up delay-3 tag-line" style="font-size: 20px; letter-spacing: 12px; margin-top: 10px;">2027</div>
 
+            <!-- FOTOS 3 Y 4 EN CUADRÍCULA -->
+            <div class="anim-element anim-fade-up delay-4" style="display: flex; gap: 20px; justify-content: center; flex-wrap: wrap; width: 100%; margin-top: 40px;">
+                <div class="photo-frame" style="width: 45%; max-width: 250px; margin: 0;" onclick="openLightbox('assets/3.jpg')">
+                    <img src="assets/3.jpg" alt="Ana Paula - Retrato 3">
+                </div>
+                <div class="photo-frame" style="width: 45%; max-width: 250px; margin: 0;" onclick="openLightbox('assets/4.jpg')">
+                    <img src="assets/4.jpg" alt="Ana Paula - Retrato 4">
+                </div>
+            </div>
+
             <!-- Cuenta Regresiva Flotante -->
-            <div class="anim-element anim-zoom delay-4 countdown-wrapper">
+            <div class="anim-element anim-zoom delay-4 countdown-wrapper" style="margin-top: 50px;">
                 <div class="time-box"><span id="cd-days">00</span><small>Días</small></div>
                 <div class="time-box"><span id="cd-hours">00</span><small>Hrs</small></div>
                 <div class="time-box"><span id="cd-minutes">00</span><small>Min</small></div>
@@ -384,7 +461,7 @@
             <a href="https://calendar.google.com/calendar/render?action=TEMPLATE&text=XV+A%C3%B1os+de+Ana+Paula&dates=20270227T003000Z/20270228T070000Z&details=Noche+bajo+las+estrellas" target="_blank" class="anim-element anim-fade-up delay-4 btn-solid">Agendar Evento</a>
         </section>
 
-        <!-- Itinerario -->
+        <!-- Itinerario y Foto 5 -->
         <section class="section-block">
             <div class="anim-element anim-fade-up delay-1 info-title">Itinerario</div>
             <div class="anim-element anim-fade-up delay-2 shimmer-text" style="font-family: 'Pinyon Script', cursive; font-size: 70px; margin-bottom: 20px; text-align: center; width: 100%; display: block;">Momentos de la Noche</div>
@@ -411,13 +488,19 @@
                     <div class="event-desc">Fin de la fiesta</div>
                 </div>
             </div>
+
+            <!-- FOTO 5 -->
+            <div class="anim-element anim-zoom delay-4 photo-frame" style="margin-top: 40px;" onclick="openLightbox('assets/5.jpg')">
+                <img src="assets/5.jpg" alt="Ana Paula - Retrato 5">
+            </div>
         </section>
 
-        <!-- Ubicación Ceremonia -->
+        <!-- Ubicación Ceremonia y Foto 6 -->
         <section class="section-block">
             <div class="anim-element anim-fade-up delay-1 info-title">Ceremonia Religiosa</div>
             <div class="anim-element anim-fade-up delay-2 info-data shimmer-text" style="font-size: 55px; font-family: 'Cormorant Garamond', serif; animation: none;">Capilla de la Conchita</div>
             
+            <!-- Imagen ilustrativa del lugar -->
             <div class="anim-element anim-zoom delay-3" style="width: 100%; max-width: 600px; margin: 30px auto 10px auto; border-radius: 8px; overflow: hidden; box-shadow: 0 15px 40px rgba(0,0,0,0.6); border: 1px solid rgba(206,224,244,0.2);">
                 <img src="assets/ceremonia.jpg" alt="Foto de Capilla de la Conchita" style="width: 100%; height: auto; display: block; max-height: 400px; object-fit: cover;">
             </div>
@@ -426,13 +509,19 @@
                 <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d4092.9242510769764!2d-99.1589092!3d19.347058999999998!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x85d1ffda54447bf3%3A0x7200393bc7791bb!2sCapilla%20de%20la%20Conchita!5e1!3m2!1ses-419!2smx!4v1791677788362!5m2!1ses-419!2smx" allowfullscreen="" loading="lazy" referrerpolicy="strict-origin-when-cross-origin"></iframe>
             </div>
             <a href="https://maps.app.goo.gl/JHfS15Lf7xhjvnZw5?g_st=aw" target="_blank" class="anim-element anim-fade-up delay-4 btn-solid">Ver Mapa en Google</a>
+
+            <!-- FOTO 6 -->
+            <div class="anim-element anim-zoom delay-4 photo-frame" style="margin-top: 60px;" onclick="openLightbox('assets/6.jpg')">
+                <img src="assets/6.jpg" alt="Ana Paula - Retrato 6">
+            </div>
         </section>
 
-        <!-- Ubicación Recepción -->
+        <!-- Ubicación Recepción y Foto 7 -->
         <section class="section-block">
             <div class="anim-element anim-fade-up delay-1 info-title">Recepción</div>
             <div class="anim-element anim-fade-up delay-2 info-data shimmer-text" style="font-size: 55px; font-family: 'Cormorant Garamond', serif; animation: none;">Jardín Casa Malitzin</div>
             
+            <!-- Imagen ilustrativa del lugar -->
             <div class="anim-element anim-zoom delay-3" style="width: 100%; max-width: 600px; margin: 30px auto 10px auto; border-radius: 8px; overflow: hidden; box-shadow: 0 15px 40px rgba(0,0,0,0.6); border: 1px solid rgba(206,224,244,0.2);">
                 <img src="assets/ubi.jpg" alt="Foto de Jardín Casa Malitzin" style="width: 100%; height: auto; display: block; max-height: 400px; object-fit: cover;">
             </div>
@@ -441,6 +530,11 @@
                 <iframe src="https://www.google.com/maps/embed?pb=!4v1789943157821!6m8!1m7!1s67sddI6Xc2hmTAa2isuUhw!2m2!1d19.35269510858068!2d-99.15954991602325!3f314.5!4f-3.3900000000000006!5f0.7820865974627469" allowfullscreen="" loading="lazy" referrerpolicy="strict-origin-when-cross-origin"></iframe>
             </div>
             <a href="https://maps.app.goo.gl/GZR4euMd7T8N4y836" target="_blank" class="anim-element anim-fade-up delay-4 btn-solid">Ver Mapa en Google</a>
+
+            <!-- FOTO 7 -->
+            <div class="anim-element anim-zoom delay-4 photo-frame" style="margin-top: 60px;" onclick="openLightbox('assets/7.jpg')">
+                <img src="assets/7.jpg" alt="Ana Paula - Retrato 7">
+            </div>
         </section>
 
         <!-- Dress Code -->
@@ -482,7 +576,7 @@
             </div>
         </section>
 
-        <!-- Spotify Playlist -->
+        <!-- Spotify Playlist y Foto 8 -->
         <section class="section-block">
             <div class="anim-element anim-fade-up delay-1 info-title">Música</div>
             <div class="anim-element anim-fade-up delay-2 shimmer-text" style="font-family: 'Pinyon Script', cursive; font-size: 70px;">Nuestra Playlist</div>
@@ -495,9 +589,14 @@
             </div>
             
             <a href="https://open.spotify.com/playlist/6WJp1rhCLoHbN5QINgS4sg?si=c3e0ba1975184ca4&pt=e83584418562fd5bc430810e770e673e" target="_blank" class="anim-element anim-fade-up delay-4 btn-solid">Agregar Canciones</a>
+
+            <!-- FOTO 8 -->
+            <div class="anim-element anim-zoom delay-4 photo-frame" style="margin-top: 60px;" onclick="openLightbox('assets/8.jpg')">
+                <img src="assets/8.jpg" alt="Ana Paula - Retrato 8">
+            </div>
         </section>
 
-        <!-- Galería en Vivo -->
+        <!-- Galería en Vivo y Foto 9 -->
         <section class="section-block">
             <div class="anim-element anim-fade-up delay-1 info-title">Momentos</div>
             <div class="anim-element anim-fade-up delay-2 shimmer-text" style="font-family: 'Pinyon Script', cursive; font-size: 75px;">Galería en Vivo</div>
@@ -505,6 +604,11 @@
                 Captura la magia de esta noche estrellada. Comparte todas las fotos y videos que tomes directamente en nuestro álbum digital.
             </p>
             <a href="https://drive.google.com/drive/folders/1wj-x-epWHzDvDA49RPvldPNiXAZSYx3h?usp=sharing" target="_blank" class="anim-element anim-fade-up delay-4 btn-solid">Subir mis Fotos</a>
+
+            <!-- FOTO 9 -->
+            <div class="anim-element anim-zoom delay-4 photo-frame" style="margin-top: 60px;" onclick="openLightbox('assets/9.jpg')">
+                <img src="assets/9.jpg" alt="Ana Paula - Retrato 9">
+            </div>
         </section>
 
         <!-- RSVP y Muro de Deseos -->
@@ -613,6 +717,21 @@
                 pauseIcon.style.display = 'block';
             }
             isMusicPlaying = !isMusicPlaying;
+        }
+
+        // --- VISOR DE FOTOS (LIGHTBOX) ---
+        function openLightbox(src) {
+            const lightbox = document.getElementById('lightbox');
+            const lightboxImg = document.getElementById('lightbox-img');
+            lightboxImg.src = src;
+            lightbox.classList.add('show');
+            document.body.style.overflow = 'hidden'; // Evita que se haga scroll detrás
+        }
+
+        function closeLightbox() {
+            const lightbox = document.getElementById('lightbox');
+            lightbox.classList.remove('show');
+            document.body.style.overflow = 'auto'; // Restaura el scroll
         }
 
         // --- SOBRE MAGICO ---
